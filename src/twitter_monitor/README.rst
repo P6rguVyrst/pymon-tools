@@ -25,6 +25,12 @@ Monitoring Twitter for keywords
 * Documentation: https://twitter-monitor.readthedocs.io.
 
 
+Usage
+-----
+twitter_monitor --help
+twitter_monitor --config='/app/conf/pymon_tools.cfg' --key=reformierakond --date_from=2018-02-03 --date_to=2018-02-04
+
+
 Features
 --------
 

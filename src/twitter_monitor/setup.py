@@ -40,7 +40,7 @@ setup(
     ],
     entry_points={
         'console_scripts': [
-            'monitoring.twitter_monitor=twitter_monitor.cli:main'
+            'twitter_monitor=monitoring.twitter_monitor.cli:main'
         ]
     },
     include_package_data=True,
