@@ -3,8 +3,10 @@
 """Console script for twitter_monitor."""
 
 # Monitoring namespace
-
-from datetime import datetime
+from datetime import (
+    datetime,
+    timedelta,
+)
 import configparser
 import click
 from monitoring.twitter_monitor import Monitor
@@ -27,20 +29,29 @@ def main(config, key, date_from, date_to):
 
     if not config:
         raise MonitoringError('Missing configuration file')
+    if not key:
+        raise MonitoringError('Missing key to monitor')
 
     conf = configparser.ConfigParser()
     conf.read(config)
     conf = conf['twitter']
 
-    now = datetime.now()
+    today = datetime.now().date()
+    #datetime.now().date().isoformat()
     if not date_from:
-        date_from = (str(now.year)+'-'+str(now.month)+'-'+str(now.day-1))
+        #date_from = (str(today.year)+'-'+str(today.month)+'-'+str(today.day-1))
+        date_from = today - timedelta(days=1)
     if not date_to:
-        date_to = (str(now.year)+'-'+str(now.month)+'-'+str(now.day))
+        date_to = today
 
     monitor = Monitor(conf)
-    count = monitor.run(key, date_from, date_to)
-
+    print(key, date_from, date_to)
+    data = {
+        'key': key,
+        'date_from': date_from.isoformat(),
+        'date_to': date_to.isoformat()
+    }
+    count = monitor.run(data)
     print(count)
 
 
