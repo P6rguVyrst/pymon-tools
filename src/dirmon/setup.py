@@ -13,13 +13,11 @@ with open('HISTORY.rst') as history_file:
 
 requirements = [
     'Click>=6.0',
-    'twython',
-
+    'watchdog',
 ]
 
 setup_requirements = [
     'pytest-runner',
-
 
 ]
 
@@ -29,26 +27,26 @@ test_requirements = [
 ]
 
 setup(
-    name='monitoring_twitter_monitor',
-    version='0.1.0',
-    description="Monitoring Twitter for keywords",
+    name='monitoring_dirmon',
+    version='0.1.2',
+    description="Monitoring Directory for changes.",
     long_description=readme + '\n\n' + history,
     author="Toomas Ormisson",
     author_email='Toomas.Ormisson@gmail.com',
-    url='https://github.com/p6rguvyrst/twitter_monitor',
+    url='https://github.com/p6rguvyrst/dirmon',
     packages=[
-        'monitoring.twitter_monitor',
+        'monitoring.dirmon'
     ],
     entry_points={
         'console_scripts': [
-            'twitter_monitor=monitoring.twitter_monitor.cli:main'
+            'directory_monitor=monitoring.dirmon.cli:main'
         ]
     },
     include_package_data=True,
     install_requires=requirements,
     license="MIT license",
     zip_safe=False,
-    keywords='twitter_monitor',
+    keywords='dirmon',
     classifiers=[
         'Development Status :: 2 - Pre-Alpha',
         'Intended Audience :: Developers',
