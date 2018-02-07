@@ -1,6 +1,7 @@
 # -*- coding: utf-8 -*-
 
 """Main module."""
+from pprint import pprint as pp
 from twython import Twython
 import json
 import csv
@@ -8,7 +9,6 @@ import csv
 class Monitor:
 
     def __init__(self, config):
-
         #TODO: Define secrets as private variables
         consumer_key = config['consumer_key']
         consumer_secret = config['consumer_secret']
@@ -20,14 +20,20 @@ class Monitor:
             access_token,
             access_token_secret)
 
-    def run(self, operation='search', **kwargs):
+    def run(self, **kwargs):
+        operation = kwargs.get('operation')
+        if not operation:
+            operation = 'count'
+
         options = {
+            'count': self.count,
             'search': self.search,
+            'test': self.test,
 
         }
         return options[operation](**kwargs)
 
-    def search(self, **kwargs):
+    def count(self, **kwargs):
         response = self.twitter.search(
             q=kwargs.get('key'),
             count=kwargs.get('max_tweets', 100),
@@ -38,5 +44,11 @@ class Monitor:
         countTweets = len(response['statuses'])
         return countTweets
 
+    def search(self, **kwargs):
+        print(__name__)
+        pp(kwargs)
 
+    def test(self, **kwargs):
+        print(__name__)
+        pp(kwargs)
 

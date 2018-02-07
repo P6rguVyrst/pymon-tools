@@ -2,7 +2,6 @@
 
 """Console script for twitter_monitor."""
 
-# Monitoring namespace
 from datetime import (
     datetime,
     timedelta,
@@ -20,38 +19,31 @@ from monitoring.exceptions import MonitoringError
 '''
 
 @click.command()
-@click.option('--config', help='Configuration file location')
-@click.option('--key', help='Keyword to monitor in Twitter')
-@click.option('--date_from', help='YYYY-MM-DD')
-@click.option('--date_to', help='YYYY-MM-DD')
-def main(config, key, date_from, date_to):
+@click.option('--config', '-c', help='Configuration file location')
+@click.option('--key', '-k', help='Keyword to monitor in Twitter')
+@click.option('--operation', '-o')
+@click.option('--date_from', '-df',  help='YYYY-MM-DD')
+@click.option('--date_to', '-dt', help='YYYY-MM-DD')
+def main(**kwargs):
     """Console script for twitter_monitor."""
 
-    if not config:
+    if not kwargs.get('config'):
         raise MonitoringError('Missing configuration file')
-    if not key:
+    if not kwargs.get('key'):
         raise MonitoringError('Missing key to monitor')
 
-    conf = configparser.ConfigParser()
-    conf.read(config)
-    conf = conf['twitter']
+    cp = configparser.ConfigParser()
+    cp.read(kwargs['config'])
+    app_config = cp['twitter']
 
-    today = datetime.now().date()
-    #datetime.now().date().isoformat()
-    if not date_from:
-        #date_from = (str(today.year)+'-'+str(today.month)+'-'+str(today.day-1))
-        date_from = today - timedelta(days=1)
-    if not date_to:
-        date_to = today
 
-    monitor = Monitor(conf)
-    print(key, date_from, date_to)
-    data = {
-        'key': key,
-        'date_from': date_from.isoformat(),
-        'date_to': date_to.isoformat()
-    }
-    count = monitor.run(data)
+    if not kwargs.get('date_from'):
+        kwargs['date_from'] = today - timedelta(days=1)
+    if not kwargs.get('date_to'):
+        kwargs['date_to'] = today
+
+    monitor = Monitor(app_config)
+    count = monitor.run(**kwargs)
     print(count)
 
 
