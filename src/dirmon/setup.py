@@ -35,7 +35,8 @@ setup(
     author_email='Toomas.Ormisson@gmail.com',
     url='https://github.com/p6rguvyrst/dirmon',
     packages=[
-        'monitoring.dirmon'
+        'monitoring.dirmon',
+        'monitoring.dirmon.handlers',
     ],
     entry_points={
         'console_scripts': [
